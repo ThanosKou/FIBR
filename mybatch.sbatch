@@ -6,13 +6,13 @@
 #SBATCH --mem=32GB
 #SBATCH --job-name=myTest
 #SBATCH --mail-type=END
-#SBATCH --mail-user=ishjain@nyu.edu
-#SBATCH --output=ish_%j.out
+#SBATCH --mail-user=rk2805@nyu.edu
+#SBATCH --output=rajeev_%j.out
   
 module purge
 module load matlab/2017b
 
-RUNDIR=$SCRATCH/mmWave/
+RUNDIR=$SCRATCH/FIBR/HO_Simulations/
 cd $RUNDIR
 
-matlab -nodisplay -nodesktop -r "run Simulation_Feb20.m"
+matlab -nodisplay -nodesktop -r "run SimulationLOS.m"
