@@ -32,10 +32,10 @@ simTime = 1.5*60*60; %sec Total Simulation time
 % Note!!! simTime must be >100s else the code won't work :)
 tstep = 0.0001; %(sec) time step
 mu = 2; %Expected bloc dur =1/mu sec
-R = 200; %m Radius
+R = 100; %m Radius
 densityBL = [0.01 0.1];
-connectivity = [1 2 3 4 5];
-nTorig = 40;
+connectivity = [1 2 3 4 ];
+nTorig = 9;
 omega = pi/3;
 
 s_input = cell(1,2);
