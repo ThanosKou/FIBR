@@ -294,9 +294,9 @@ end
 % probAllBl = sum(allBl)*tstep/simTime;
 
 
-avgDur = mean(blockage_duration);
-probBl = sum(blockage_duration)/simTime;
-RLFprob = sum(blockage_duration(blockage_duration>0.03))/simTime;
+avgDur = mean(blockage_duration(2:end));
+probBl = sum(blockage_duration(2:end))/simTime;
+RLFprob = sum(blockage_duration(blockage_duration(2:end)>0.03))/simTime;
 %avgFreq = length(blockage_duration)/simTime;
 
 %%Return now
