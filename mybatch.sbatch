@@ -3,7 +3,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
 #SBATCH --time=5:00:00
-#SBATCH --mem=32GB
+#SBATCH --mem=24GB
 #SBATCH --job-name=myTest
 #SBATCH --mail-type=END
 #SBATCH --mail-user=rk2805@nyu.edu
