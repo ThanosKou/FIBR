@@ -115,7 +115,7 @@ end
 
 %% Thanos & Rajeev, FIBR work
 
-dt = 0.02; % time after getting blocked
+dt = 0.1; % time after getting blocked
 
 servBS = zeros(4,nT);
 
@@ -130,7 +130,14 @@ while timestamp < totaltime
     
     if ~isempty(actions)
         l = struct2cell(actions);
-        [timestamp,action_index] = min(cell2mat(l(1,:))); % find next action 
+        [x,action_index] = min(cell2mat(l(1,:))); % find next action 
+        if x < timestamp    
+            g = 1;
+            timestamp = totaltime;
+            continue
+        else
+                timestamp = x;
+        end 
         %timestamp = actions(action_index).timeinstance;  % timestamp of next action
      
         if strcmp(actions(action_index).fnc,'add')
@@ -251,6 +258,7 @@ while timestamp < totaltime
             timestamp = totaltime;
             continue
         end 
+        
 
         % Then, we find which BS is blocked first
         A = servBS(1,:);        
