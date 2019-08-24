@@ -125,6 +125,7 @@ tt = ones(1,nT); %loop index for all BSs
 timestamp = 0;
 actions = [];
 blockage_duration = [];
+block_instance = [];
 
 while timestamp < totaltime
     
@@ -278,6 +279,7 @@ while timestamp < totaltime
                 actions = [actions struct('timeinstance',{blockTimeNext},'BSindex',{100},'fnc',{'nextBlock'})]; % next BS to be blocked, if the new ones do not get blocked before
             else
                 blockage_duration = [blockage_duration timestamp];
+                block_instance = [block_instance timestamp]; % useful to calculate throughput
             end
             actions = [actions struct('timeinstance',{servBS(3,old_bs)},'BSindex',{old_bs},'fnc',{'add'})]; % add a new BS to BSSET
             actions = [actions struct('timeinstance',{servBS(4,old_bs)},'BSindex',{old_bs},'fnc',{'recover'})];  % add it again to NONBSSET when blockage ends
