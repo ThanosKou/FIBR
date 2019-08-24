@@ -28,14 +28,14 @@ hb = 1.8; %height blocker
 hr = 1.4; %height receiver (UE)
 ht = 5; %height transmitter (BS)
 frac = (hb-hr)/(ht-hr);
-simTime = 1.5*60*60; %sec Total Simulation time
+simTime = 4*60*60; %sec Total Simulation time
 % Note!!! simTime must be >100s else the code won't work :)
 tstep = 0.0001; %(sec) time step
 mu = 2; %Expected bloc dur =1/mu sec
 R = 100; %m Radius
 densityBL = [0.01 0.1];
 connectivity = [1 2 3 4 ];
-nTorig = 9;
+nTorig = 12;
 omega = pi/3;
 
 s_input = cell(1,2);
@@ -79,7 +79,8 @@ for indT = 1:length(connectivity)
             %BlockageSimFn function is written by Ish Jain
             output = BlockageSimFn(s_mobility{indB},BS_input);
             finaldata(:,indT,indB) = output;
-	    csvwrite(strcat('output',num2str(aID),'.csv'),finaldata)
+	    csvwrite(strcat('output',num2str(currConnec),'_',num2str(nTorig),'_',num2str(aid),'.csv'),finaldata)
+            csvwrite(strcat('output',num2str(currConnec),'_',num2str(nTorig),'_',num2str(aid),'.csv'),output(4:end))
             %         output is [avgFreq,avgDur,probAllBl,th_freqBl,th_durBl,th_probAllBl];
     end
 end
