@@ -79,8 +79,8 @@ for indT = 1:length(connectivity)
             %BlockageSimFn function is written by Ish Jain
             output = BlockageSimFn(s_mobility{indB},BS_input);
             finaldata(:,indT,indB) = output;
-	    csvwrite(strcat('output',num2str(currConnec),'_',num2str(nTorig),'_',num2str(aid),'.csv'),finaldata)
-            csvwrite(strcat('output',num2str(currConnec),'_',num2str(nTorig),'_',num2str(aid),'.csv'),output(4:end))
+	    csvwrite(strcat('output',num2str(currConnec),'_',num2str(nTorig),'_',num2str(aID),'.csv'),finaldata)
+            csvwrite(strcat('output',num2str(currConnec),'_',num2str(nTorig),'_',num2str(aID),'.csv'),output(4:end))
             %         output is [avgFreq,avgDur,probAllBl,th_freqBl,th_durBl,th_probAllBl];
     end
 end
