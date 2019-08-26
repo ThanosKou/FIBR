@@ -133,7 +133,6 @@ while timestamp < totaltime
         l = struct2cell(actions);
         [x,action_index] = min(cell2mat(l(1,:))); % find next action 
         if x < timestamp    
-            g = 1;
             timestamp = totaltime;
             continue
         else
@@ -304,12 +303,19 @@ end
 % probAllBl = sum(allBl)*tstep/simTime;
 
 
-avgDur = mean(blockage_duration(2:end));
-probBl = sum(blockage_duration(2:end))/simTime;
-RLFprob = sum(blockage_duration(blockage_duration(2:end)>0.03))/simTime;
+blockage_duration=blockage_duration(2:end);
+block_instance = block_instance(2:end);
+
+block_dur = blockage_duration(blockage_duration<1);
+block_inst = block_instance(blockage_duration<1);
+
+avgDur = mean(block_dur);
+probBl = sum(block_dur)/simTime;
+RLFprob = sum(blockage_duration(blockage_duration<1 & blockage_duration>0.03))/simTime;
+
 %avgFreq = length(blockage_duration)/simTime;
 
 %%Return now
-output=[probBl,RLFprob,avgDur]';
+output=[probBl,RLFprob,avgDur,block_inst]';
 
 end
