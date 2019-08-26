@@ -35,7 +35,7 @@ mu = 2; %Expected bloc dur =1/mu sec
 R = 100; %m Radius
 densityBL = [0.01 0.1];
 connectivity = [1 2 3 4 ];
-nTorig = 12;
+nTorig = 9;
 omega = pi/3;
 
 s_input = cell(1,2);
