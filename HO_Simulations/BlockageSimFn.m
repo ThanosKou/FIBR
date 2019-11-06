@@ -231,7 +231,7 @@ while timestamp < totaltime
             old_bs = BSSET(blockedBS);
             BLOCKEDBSSET = [BLOCKEDBSSET old_bs]; 
             BSSET = setdiff(BSSET,old_bs); % remove the blocked BS from the list and then add it to blocked set
-            actions = [actions struct('timeinstance',{servBS(3,old_bs)},'BSindex',{old_bs},'fnc',{'add'})]; % add a new BS to BSSET
+            actions = [actions struct('timeinstance',{servBS(3,old_bs)} + w,'BSindex',{old_bs},'fnc',{'add'})]; % add a new BS to BSSET
             actions = [actions struct('timeinstance',{servBS(4,old_bs)},'BSindex',{old_bs},'fnc',{'recover'})];  % add it again to NONBSSET when blockage ends
             
             if ~isempty(A(BSSET))
@@ -276,7 +276,7 @@ while timestamp < totaltime
                             last_blockage_dur = dataBS{BSSET(indBS)}(2,last_time_index);
                             if last_time_blocked + last_blockage_dur >= timestamp
                                 actions = [actions struct('timeinstance',{last_time_blocked + last_blockage_dur},'BSindex',{BSSET(indBS)},'fnc',{'recover'})];  % add it again to NONBSSET when blockage ends
-                                actions = [actions struct('timeinstance',{timestamp + dt},'BSindex',{1},'fnc',{'add'})];
+                                actions = [actions struct('timeinstance',{timestamp + dt + w},'BSindex',{1},'fnc',{'add'})];
                                 old_bs = BSSET(indBS);
                                 BLOCKEDBSSET = [BLOCKEDBSSET old_bs]; 
                                 BSSET_copy = setdiff(BSSET_copy,old_bs);
