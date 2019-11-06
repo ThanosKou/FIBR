@@ -58,8 +58,8 @@ tstep = BS_input.TIME_STEP; %(sec) time step
 mu = BS_input.MU; %Expected bloc dur =1/mu
 conDegree = BS_input.DEGREE_CONNECTIVITY;
 
-RLF_timer = 0.03;
-RLF_recovery = 0.04;
+RLF_timer = 0.03; %(sec) time to declare RLF
+RLF_recovery = 0.04; %(sec) time to exit RLF and establish a new link
 
 dataBS = cell(nT,1); 
 %dataBS contain array of timestamps of blocker arrival for all BSs,
@@ -116,11 +116,12 @@ end
 
 %% Thanos & Rajeev, FIBR work
 
-dt = 0.1; % time after getting blocked
+dt = 0.001; %(sec) heartbeat signal timer 
+w = 0.02; %(sec) time needed for a handover to new BS
 
 servBS = zeros(4,nT);
 
-choose = @(samples) samples(randi(numel(samples)));
+choose = @(samples) samples(randi(numel(samples))); % function to choose randomly an element from a set
 
 tt = ones(1,nT); %loop index for all BSs
 timestamp = 0;
@@ -141,7 +142,7 @@ while timestamp < totaltime
         end 
         %timestamp = actions(action_index).timeinstance;  % timestamp of next action
      
-        if strcmp(actions(action_index).fnc,'add')
+        if strcmp(actions(action_index).fnc,'add') % if next action is "add"
             if ~isempty(NONBSSET) % there are more BSs in the nonBSset          
                 newBS = choose(NONBSSET); % pick a random BS and add it to the set 
                 % Need to check if this BS is currently blocked
@@ -200,7 +201,7 @@ while timestamp < totaltime
         for indBS = 1:nT
             if any(BSSET(:) == indBS) % if the current BS serves the UE
                 %if timestamp > dataBS{BSSET(indBS)}(1,tt(indBS)) 
-                if ~isempty(find(dataBS{indBS}(1,:)>=timestamp,1,'first'))
+                if ~isempty(find(dataBS{indBS}(1,:)>=timestamp,1,'first')) % make sure that there blockages left 
                     tt(indT) = find(dataBS{indBS}(1,:)>=timestamp,1,'first'); % find first blockage time index after the current timestamp th
 
                     servBS(1,indBS) = dataBS{indBS}(1,tt(indT)); % blockage times for serving BS
@@ -208,7 +209,7 @@ while timestamp < totaltime
                     servBS(3,indBS) = servBS(1,indBS) + dt; % UE cannot change BS until that time
                     servBS(4,indBS) = servBS(1,indBS) + servBS(2,indBS); % BS is again up at this time
                 else
-                    finishedBS = finishedBS + 1;
+                    finishedBS = finishedBS + 1; % there are no more blockages left for this BS
                 %   timestamp = totaltime;
                 %  continue
                 end 
