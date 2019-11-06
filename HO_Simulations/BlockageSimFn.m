@@ -1,7 +1,8 @@
 function output = BlockageSimFn(s_mobility,BS_input)
-% Written by Ish Jain
+% Written by Thanos Koutsaftis
+% Used template of Ish Kumar Jain
 % NYU Tandon School of Engineering
-% Date: June 2018
+% Date: July 2019
 %
 % Input:
 %   s_mobility: contains parameters corresponding to blockers mobility
