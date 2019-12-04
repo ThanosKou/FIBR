@@ -66,7 +66,7 @@ for indBS = 1:length(densityBS)
     rT = R*sqrt(rand(nT,1)); %location of APs (distance from origin)
     alphaT = 2*pi*rand(nT,1);%location of APs (angle from x-axis)
     BS_pos_stat = [rT,alphaT];
-    csvwrite(strcat('BS_Positions','_',num2str(aID),'_',num2str(densityBS(indBS)*10^6),'.csv'),BS_pos_stat)
+    csvwrite(strcat('BS_Positions','_',num2str(densityBS(indBS)*10^6),'_',num2str(aID),'.csv'),BS_pos_stat)
     for indT = 1:length(connectivity)
         currConnec = connectivity(indT);
         for indB = 1:length(densityBL) %for all blockers
@@ -87,7 +87,7 @@ for indBS = 1:length(densityBS)
                 'NUM_BL',nB,...
                 'DISCOVERY_TIME',discovery,...
                 'HO_PREP_TIME',preparation,...
-                'BS_DENSITY',densityBS(indT)*10^6,...
+                'BS_DENSITY',densityBS(indBS)*10^6,...
                 'BL_Density',densityBL(indB)*100,...
                 'ITR',aID);
 
@@ -111,3 +111,7 @@ end
 %Use the code processData9.m to analyze and plot the results
 %csvwrite(strcat('output',num2str(aID),'.csv'),finaldata)
 dlmwrite(strcat('output','_',num2str(aID),'.csv'),finaldata,'delimiter',',','precision',7)
+mkdir(strcat('SimulationResult','_',num2str(aID)))
+movefile("*.mat",strcat('SimulationResult','_',num2str(aID)))
+movefile("Blockage_Stat*",strcat('SimulationResult','_',num2str(aID)))
+movefile("BS_Positions*",strcat('SimulationResult','_',num2str(aID)))

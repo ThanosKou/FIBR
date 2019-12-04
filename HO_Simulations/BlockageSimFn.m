@@ -57,7 +57,7 @@ yTfrac = frac*yT;
 locT = [xTfrac';yTfrac']; %2 rows for x and y, nT columns
 alphaT = alphaTorig(tempInd); %angle from x-axis for BS not blocked by self-bl
 simTime = BS_input.SIMULATION_TIME; %sec Total Simulation time
-tstep = BS_input.TIME_STEP; %(sec) time step
+%tstep = BS_input.TIME_STEP; %(sec) time step
 mu = BS_input.MU; %Expected bloc dur =1/mu
 conDegree = BS_input.DEGREE_CONNECTIVITY;
 
@@ -101,10 +101,10 @@ for i=1:nT
     dataBS{i} = sort(dataBS{i});
 end
 
-totaltime = (simTime)/tstep;
-binary_seq = zeros(nT,totaltime); %time sequence for every BS
-allBl = ones(1,totaltime); %binary seq of all blocked
-Tval = tstep:tstep:totaltime*tstep; %run simulation till tdur with step of tstep
+%totaltime = (simTime)/tstep;
+%binary_seq = zeros(nT,totaltime); %time sequence for every BS
+%allBl = ones(1,totaltime); %binary seq of all blocked
+%Tval = tstep:tstep:totaltime*tstep; %run simulation till tdur with step of tstep
 if(wannaplot),figure; hold on; end
 
 tranBSs=1:1:nT;
@@ -149,13 +149,13 @@ for indDisc=1:length(discovery_time)
         blockage_duration = [];
         block_instance = [];
 
-        while timestamp < totaltime
+        while timestamp < simTime
 
             if ~isempty(actions)
                 l = struct2cell(actions);
                 [x,action_index] = min(cell2mat(l(1,:))); % find next action 
                 if x < timestamp    
-                    timestamp = totaltime;
+                    timestamp = simTime;
                     continue
                 else
                         timestamp = x;
@@ -235,7 +235,7 @@ for indDisc=1:length(discovery_time)
                             servBS(4,indBS) = servBS(1,indBS) + servBS(2,indBS); % BS is again up at this time
                         else
                             finishedBS = finishedBS + 1; % there are no more blockages left for this BS
-                        %   timestamp = totaltime;
+                        %   timestamp = simTime;
                         %  continue
                         end 
                     %else
@@ -244,7 +244,7 @@ for indDisc=1:length(discovery_time)
                 end
 
                 if finishedBS == length(BSSET)
-                    timestamp = totaltime;
+                    timestamp = simTime;
                     continue
                 end 
 
@@ -265,7 +265,7 @@ for indDisc=1:length(discovery_time)
                     actions = [actions struct('timeinstance',{servBS(4,old_bs)},'BSindex',{old_bs},'fnc',{'recover'})];  % add it again to NONBSSET when blockage ends
 
                     if ~isempty(A(BSSET))
-                        [blockTimeNext,blockedBSNext] = min(A(BSSET)); % Prepare for the next blocked BS
+                        [blockTimeNext,~] = min(A(BSSET)); % Prepare for the next blocked BS
                         if ~isempty(actions)
                             ll = struct2cell(actions);
                             actions = actions(find(~strcmp(cellstr(ll(3,:)),'nextBlock')));
