@@ -364,7 +364,8 @@ for indDisc=1:length(discovery_time)
         blockage_Stat = [block_inst',block_dur'];
         dlmwrite(strcat('Blockage_Stat','_',num2str(BS_density),'_',num2str(conDegree),'_',num2str(BL_density),'_',num2str(dt*1000),'_',num2str(w*1000),'_',num2str(ITERATION),'.csv'),blockage_Stat,'delimiter',',','precision',7)
         block_inst = [];block_dur = [];
-        save(strcat('BS_Connection_Stat_Time','_',num2str(BS_density),'_',num2str(conDegree),'_',num2str(BL_density),'_',num2str(dt*1000),'_',num2str(w*1000),'_',num2str(ITERATION),'.mat'),'BS_state_iter')
+        BS_state{end+1} = BS_state_iter;
+        dlmwrite(strcat('BS_state','_',num2str(BS_density),'_',num2str(conDegree),'_',num2str(BL_density),'_',num2str(dt*1000),'_',num2str(w*1000),'_',num2str(ITERATION),'.csv'),BS_state_iter,'delimiter',',','precision',7)
         BS_state_iter = {};
     end 
 end 

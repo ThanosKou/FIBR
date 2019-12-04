@@ -34,8 +34,8 @@ tstep = 0.0001; %(sec) time step
 mu = 2; %Expected bloc dur =1/mu sec
 R = 100; %m Radius
 
-discovery = [1 5 20]*10^(-3);
-preparation = [10 20]*1^(-3);
+discovery = [1 5 20 200 1000]*10^(-3);
+preparation = [10 20]*10^(-3);
 densityBL = [0.01 0.1];
 densityBS = [200 300 400 500]*10^(-6);
 connectivity = [1 2 3 4 ];
@@ -65,6 +65,8 @@ for indBS = 1:length(densityBS)
     nT = poissrnd(densityBS(indBS)*pi*R^2);
     rT = R*sqrt(rand(nT,1)); %location of APs (distance from origin)
     alphaT = 2*pi*rand(nT,1);%location of APs (angle from x-axis)
+    BS_pos_stat = [rT,alphaT];
+    csvwrite(strcat('BS_Positions','_',num2str(aID),'_',num2str(densityBS(indBS)*10^6),'.csv'),BS_pos_stat)
     for indT = 1:length(connectivity)
         currConnec = connectivity(indT);
         for indB = 1:length(densityBL) %for all blockers
@@ -82,20 +84,25 @@ for indBS = 1:length(densityBS)
                 'Original_NUM_AP',nT,...
                 'LOC_AP_DISTANCE', rT,...
                 'LOC_AP_ANGLE',alphaT,...
-                'NUM_BL',nB);
+                'NUM_BL',nB,...
+                'DISCOVERY_TIME',discovery,...
+                'HO_PREP_TIME',preparation,...
+                'BS_DENSITY',densityBS(indT)*10^6,...
+                'BL_Density',densityBL(indB)*100,...
+                'ITR',aID);
 
                 %BlockageSimFn function is written by Ish Jain
-                [BS_state,output] = BlockageSimFn(s_mobility{indB},BS_input);
-                discovery = [1 5 20];
-                preparation = [10 20];
-                indCell = 0; 
-                for disc=1:length(discovery)
-                    for prep=1:length(preparation)
-                        indCell = indCell + 1;
-                        dlmwrite(strcat('output',num2str(nT),'_',num2str(currConnec),'_',num2str(indB),'_',num2str(discovery(disc)),'_',num2str(preparation(prep)),'_',num2str(aID),'.csv'),output{indCell},'delimiter',',','precision',7)
-                        dlmwrite(strcat('BS_state',num2str(nT),'_',num2str(currConnec),'_',num2str(indB),'_',num2str(discovery(disc)),'_',num2str(preparation(prep)),'_',num2str(aID),'.csv'),BS_state{indCell},'delimiter',',','precision',7)
-                    end 
-                end 
+                [output] = BlockageSimFn(s_mobility{indB},BS_input);
+                %discovery = [1 5 20];
+                %preparation = [10 20];
+                %indCell = 0; 
+                %for disc=1:length(discovery)
+                %    for prep=1:length(preparation)
+                %        indCell = indCell + 1;
+                %        dlmwrite(strcat('output',num2str(nT),'_',num2str(currConnec),'_',num2str(indB),'_',num2str(discovery(disc)),'_',num2str(preparation(prep)),'_',num2str(aID),'.csv'),output{indCell},'delimiter',',','precision',7)
+                %        dlmwrite(strcat('BS_state',num2str(nT),'_',num2str(currConnec),'_',num2str(indB),'_',num2str(discovery(disc)),'_',num2str(preparation(prep)),'_',num2str(aID),'.csv'),BS_state{indCell},'delimiter',',','precision',7)
+                %    end 
+                %end 
                 %finaldata(:,indBS,indT,indB) = output(1:3);
             %         output is [avgFreq,avgDur,probAllBl,th_freqBl,th_durBl,th_probAllBl];
         end
