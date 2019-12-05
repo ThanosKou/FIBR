@@ -2,7 +2,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
-#SBATCH --time=5:00:00
+#SBATCH --time=8:00:00
 #SBATCH --mem=24GB
 #SBATCH --job-name=myTest
 #SBATCH --mail-type=END
@@ -10,7 +10,7 @@
 #SBATCH --output=rajeev_%j.out
   
 module purge
-module load matlab/2017b
+module load matlab/2019a
 
 RUNDIR=$SCRATCH/FIBR/HO_Simulations/
 cd $RUNDIR
