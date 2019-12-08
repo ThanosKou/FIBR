@@ -90,9 +90,9 @@ for aID=1:6000
         end
     end    
 end 
-prob_block = prob_block/(30*32);
-prob_RLF = prob_RLF/(30*32);
-block_dur = block_dur/(30*32);
+prob_block = prob_block/6000;
+prob_RLF = prob_RLF/6000;
+block_dur = block_dur/6000;
 
 %% Process the above here
 
